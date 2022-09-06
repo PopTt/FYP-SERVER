@@ -11,7 +11,9 @@ module.exports = {
             },
             {               
                 $set: {
-                    'participants.$.status': 'Attend'
+                    'participants.$.status': 'Attend',
+                    'participants.$.location': body.location,
+                    'participants.$.IPAddress': body.IPAddress
                 }
             })
             return res.status(201).json({

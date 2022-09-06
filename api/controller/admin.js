@@ -116,5 +116,44 @@ module.exports = {
         } catch (error) {
             next(error)
         }        
-    }
+    },
+
+    closeEvent: async (req, res, next) => {
+        const body = req.body;
+        try {         
+            const result = await schema.Events.findByIdAndUpdate(   
+                body.event_id,
+            {
+                $set: {
+                    status: true
+                }
+            })
+            return res.status(201).json({
+                success: 1,
+                message: 'Close Event Successfully',
+                data: result,
+            })
+        } catch (error) {
+            next(error)
+        }        
+    },
+    openEvent: async (req, res, next) => {
+        const body = req.body;
+        try {         
+            const result = await schema.Events.findByIdAndUpdate(   
+                body.event_id,
+            {
+                $set: {
+                    status: false
+                }
+            })
+            return res.status(201).json({
+                success: 1,
+                message: 'Open Event Successfully',
+                data: result,
+            })
+        } catch (error) {
+            next(error)
+        }        
+    },
 }
