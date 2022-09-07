@@ -2,11 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const dotenv = require('dotenv');
-const auth_router = require('../FYP-server/api/router/auth')
-const admin_router = require('../FYP-server/api/router/admin')
-const data_router = require('../FYP-server/api/router/data')
-const manager_router = require('../FYP-server/api/router/manager')
-const participant_router = require('../FYP-server/api/router/participant')
+const auth_router = require('./api/router/auth')
+const admin_router = require('./api/router/admin')
+const data_router = require('./api/router/data')
+const manager_router = require('./api/router/manager')
+const participant_router = require('./api/router/participant')
 
 dotenv.config({ path: './.env' });
 
