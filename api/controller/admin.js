@@ -104,6 +104,7 @@ module.exports = {
                 $push :{
                     managers: {
                         "id": body.manager_id,
+                        "name": body.manager_name,
                         "creator": body.admin_id
                     }
                 }

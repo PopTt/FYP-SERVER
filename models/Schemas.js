@@ -42,6 +42,7 @@ const eventsSchema = new Schema({
     managers: [
         {
             id: {type: Schema.Types.ObjectId, ref: 'Users', require: true},
+            name: {type: String, require: true}, 
             createdDate: {type: Date, default: Date.now},
             creator: {type: Schema.Types.ObjectId, ref: 'Users', require: true}
         }
