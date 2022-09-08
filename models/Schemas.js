@@ -36,8 +36,7 @@ const eventsSchema = new Schema({
     method: [
         {
             type: String, require: true
-        } //face-recognition, QR Code, Location, ip-address
-        
+        } //face-recognition, QR Code, Location, ip-address   
     ],
     managers: [
         {
