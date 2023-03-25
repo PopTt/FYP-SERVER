@@ -11,12 +11,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs": "^4.2.0",
+    "@tensorflow/tfjs-node": "^4.2.0",
     "bcrypt": "^5.0.1",
+    "buffer": "^6.0.3",
+    "canvas": "^2.11.0",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "face-api.js": "^0.22.2",
+    "fetch-blob": "^2.0.0",
+    "fs": "^0.0.1-security",
+    "jsdom": "^21.1.1",
     "moment": "^2.29.4",
     "mongoose": "^6.5.2",
+    "node-fetch": "^2.6.5",
     "nodemon": "^2.0.19"
   }
 }
