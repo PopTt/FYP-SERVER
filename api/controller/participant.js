@@ -37,6 +37,7 @@ module.exports = {
                 $push :{
                     participants: {
                         "id": body.user_id,
+                        "name": body.username
                     }
                 }
             })

@@ -53,6 +53,7 @@ module.exports = {
                 $push :{
                     managers: {
                         "id": result._id,
+                        "name": body.username
                     }
                 }
             },(err, result) => {
@@ -69,27 +70,39 @@ module.exports = {
     createEvent: async (req, res, next) => {
         const body = req.body;
         try {
-            await schema.Events.create({
-                name: body.name,
-                description: body.description,
-                invitationPin: body.invitationPin,
-                method: body.method,
-                organization: body.organization
-            },
-            (err, result) => {
-                if(err){
-                    console.log(err)
-                    return res.status(500).json({
-                        success: 0,
-                        message: 'Server connection failure'
-                    })
+            const result = await schema.Events.findOne(
+                {
+                    invitationPin: body.invitationPin,
                 }
-                return res.status(201).json({
-                    success: 1,
-                    message: 'Create Event Successfully',
-                    data: result,
+                )
+            if(result){
+                return res.status(401).json({
+                    success: 0,
+                    message: 'InvitationPin must be unique',
                 })
-        })
+            }else{
+                await schema.Events.create({
+                    name: body.name,
+                    description: body.description,
+                    invitationPin: body.invitationPin,
+                    method: body.method,
+                    organization: body.organization
+                },
+                (err, result) => {
+                    if(err){
+                        console.log(err)
+                        return res.status(500).json({
+                            success: 0,
+                            message: 'Server connection failure'
+                        })
+                    }
+                    return res.status(201).json({
+                        success: 1,
+                        message: 'Create Event Successfully',
+                        data: result,
+                    })
+                })
+            }
         } catch (error) {
             next(error)
         }             

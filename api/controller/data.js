@@ -77,4 +77,23 @@ module.exports = {
             next(error)
         }                
     },
+
+    getEventByManagerID: async (req, res, next) => {
+        const manager_id = req.params.manager_id.toString()
+        try {
+            const events = await schema.Events.find({
+                'managers.id': {
+                    $all: manager_id
+                }
+            }).sort({updateAt: 1})
+
+            return res.status(201).json({
+                success: 1,
+                message: 'Get Event Successfully',
+                data: events,
+            })
+        } catch (error) {
+            next(error)
+        }                
+    },
 }

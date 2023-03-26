@@ -18,6 +18,7 @@ const organizationsSchema = new Schema({
     managers: [
         {
             id: {type: Schema.Types.ObjectId, ref: 'Users', require: true},
+            name: {type: String, require: true},
             createdDate: {type: Date, default: Date.now}
         }
     ],
@@ -49,6 +50,7 @@ const eventsSchema = new Schema({
     participants: [
         {
             id: {type: Schema.Types.ObjectId, ref: 'Users', require: true},
+            name: {type: String, require: true}, 
             joinedDate: {type: Date, default: Date.now},
             status: {type: String, default: "Absent"},
             location: {type: String, default: undefined},
