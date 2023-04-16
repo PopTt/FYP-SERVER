@@ -8,4 +8,6 @@ router.post('/login', user.login);
 
 router.post('/registerFace', user.registerFace);
 
+router.post('/recognizeFace', user.recognizeFace);
+
 module.exports = router
