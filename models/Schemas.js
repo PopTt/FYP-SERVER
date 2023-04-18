@@ -63,7 +63,13 @@ const eventsSchema = new Schema({
     organization: {
         id: {type: Schema.Types.ObjectId, ref: 'Organizations', require: true},
         name: {type: String, require: true}
-    }
+    },
+    location: {
+        type: [Number], default: [null, null] 
+    },
+    ipaddress: {
+        type: String, default: '0.0.0.0'
+    },
 })
 
 const usersSchema = new Schema({

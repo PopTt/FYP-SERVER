@@ -48,6 +48,30 @@ module.exports = {
 
     setLocation: async (req, res, next) => {
         const body = req.body;
+        try {
+          const result = await schema.Events.updateOne(
+            {
+              "_id": body.event_id,
+            },
+            {
+              $set: {
+                'location': [body.latitude, body.longitude],
+              }
+            }
+          )
+          return res.status(201).json({
+            success: 1,
+            message: 'set Location Successfully',
+            data: result,
+          })
+        } catch (error) {
+          next(error)
+        }
+      },
+
+
+    setIPaddress: async (req, res, next) => {
+        const body = req.body;
         try {         
             const result = await schema.Events.updateOne(   
             {
@@ -55,7 +79,7 @@ module.exports = {
             },
             {               
                 $set: {
-                    'location': body.location,
+                    'ipaddress': body.ipaddress,
                 }
             })
             return res.status(201).json({
