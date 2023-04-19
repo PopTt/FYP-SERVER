@@ -81,29 +81,34 @@ function encryptModel(str, secret) {
 }
 
 async function decryptModel(encryptedModel, secret) {
+  try {
+    const decrypted = CryptoJS.AES.decrypt(encryptedModel, secret, {
+      mode: CryptoJS.mode.ECB,
+    });
+    //console.log("key: ", key);
+    // const descriptors = [
+    //   new Float32Array([0.1, 0.2, 0.3, 0.4]),
+    //   new Float32Array([0.5, 0.6, 0.7, 0.8]),
+    //   new Float32Array([0.9, 1.0, 1.1, 1.2])
+    // ];
+    //console.log(JSON.stringify(decrypted))
+    const model = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)).labeledDescriptors
+    const labeledDescriptors = await Promise.all(
+      model.map(async (data) => {
+        //console.log(data.label)
+        const descriptors = await Promise.all(
+          data.descriptors.map(async (data) => new Float32Array(data))
+        );
+        return new faceapi.LabeledFaceDescriptors(data.label, descriptors);
+      })
+    );
+  
+    const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors);
+    return faceMatcher
+  } catch (error) {
+    return false
+  }
   //const key = CryptoJS.enc.Utf8.parse(secret);
-  const decrypted = CryptoJS.AES.decrypt(encryptedModel, secret, {
-    mode: CryptoJS.mode.ECB,
-  });
-  //console.log("key: ", key);
-  // const descriptors = [
-  //   new Float32Array([0.1, 0.2, 0.3, 0.4]),
-  //   new Float32Array([0.5, 0.6, 0.7, 0.8]),
-  //   new Float32Array([0.9, 1.0, 1.1, 1.2])
-  // ];
-  const model = JSON.parse(decrypted.toString(CryptoJS.enc.Utf8)).labeledDescriptors
-  const labeledDescriptors = await Promise.all(
-    model.map(async (data) => {
-      //console.log(data.label)
-      const descriptors = await Promise.all(
-        data.descriptors.map(async (data) => new Float32Array(data))
-      );
-      return new faceapi.LabeledFaceDescriptors(data.label, descriptors);
-    })
-  );
-
-  const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors);
-  return faceMatcher
   //return decrypted.toString(CryptoJS.enc.Utf8)
 }
 
@@ -267,25 +272,33 @@ module.exports = {
       //console.log(originalData)
       // Process the face image
       decryptModel(originalData, secret).then(async result => {
-        const image = await loadImage(Buffer.from(faceImage, "base64"));
-        const canvas = createCanvas(image.width, image.height);
-        const context = canvas.getContext("2d");
-        context.drawImage(image, 0, 0, image.width, image.height);
-        const detections = await faceapi
-          .detectSingleFace(canvas)
-          .withFaceLandmarks()
-          .withFaceDescriptor();
-        const descriptor = detections.descriptor;
+        if(result != false){
+          const image = await loadImage(Buffer.from(faceImage, "base64"));
+          const canvas = createCanvas(image.width, image.height);
+          const context = canvas.getContext("2d");
+          context.drawImage(image, 0, 0, image.width, image.height);
+          const detections = await faceapi
+            .detectSingleFace(canvas)
+            .withFaceLandmarks()
+            .withFaceDescriptor();
+          const descriptor = detections.descriptor;
 
-        //console.log(result)
-        // Match the face descriptor to a known user ID
-        const match = result.findBestMatch(descriptor);
+          //console.log(result)
+          // Match the face descriptor to a known user ID
+          const match = result.findBestMatch(descriptor);
 
-        return res.status(200).json({
-          success: 1,
-          message: "Face recognition successful",
-          data: match.toString(),
-        });
+          return res.status(200).json({
+            success: 1,
+            message: "Face recognition successful",
+            data: match.toString(),
+          });
+        }else{
+          res.status(500).json({
+            success: 0,
+            message: "Failed to recognize the face"
+          });
+        }       
+        
       })
       // const decryptedModel = await decryptModel(encryptedModel, secret);
       // console.log(decryptedModel)
