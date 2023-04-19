@@ -34,11 +34,9 @@ const eventsSchema = new Schema({
     status: {
         type: Boolean, default: false
     },
-    method: [
-        {
-            type: String, require: true
-        } //face-recognition, QR Code, Location, ip-address   
-    ],
+    face: {
+        type: Boolean, default: false
+    },
     managers: [
         {
             id: {type: Schema.Types.ObjectId, ref: 'Users', require: true},
@@ -53,8 +51,10 @@ const eventsSchema = new Schema({
             name: {type: String, require: true}, 
             joinedDate: {type: Date, default: Date.now},
             status: {type: String, default: "Absent"},
-            location: {type: String, default: undefined},
-            IPAddress: {type: String, default: undefined}
+            location: {
+                type: [Number], default: [null, null] 
+            },
+            IPAddress: {type: String, default: '0.0.0.0'}
         }
     ],
     invitationPin: {

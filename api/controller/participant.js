@@ -12,7 +12,7 @@ module.exports = {
             {               
                 $set: {
                     'participants.$.status': 'Attend',
-                    'participants.$.location': body.location,
+                    'participants.$.location': [body.latitude, body.longitude],
                     'participants.$.IPAddress': body.IPAddress
                 }
             })

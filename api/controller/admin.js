@@ -170,4 +170,43 @@ module.exports = {
             next(error)
         }        
     },
+    openFaceMethod: async (req, res, next) => {
+        const body = req.body;
+        try {         
+            const result = await schema.Events.findByIdAndUpdate(   
+                body.event_id,
+            {
+                $set: {
+                    face: true
+                }
+            })
+            return res.status(201).json({
+                success: 1,
+                message: 'Open Face Recognition Method Successfully',
+                data: result,
+            })
+        } catch (error) {
+            next(error)
+        }        
+    },
+
+    closeFaceMethod: async (req, res, next) => {
+        const body = req.body;
+        try {         
+            const result = await schema.Events.findByIdAndUpdate(   
+                body.event_id,
+            {
+                $set: {
+                    face: false
+                }
+            })
+            return res.status(201).json({
+                success: 1,
+                message: 'Close Face Recognition Method Successfully',
+                data: result,
+            })
+        } catch (error) {
+            next(error)
+        }        
+    },
 }

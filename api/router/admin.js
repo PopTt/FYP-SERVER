@@ -8,5 +8,6 @@ router.post('/createEvent', admin.createEvent);
 router.post('/assignManager', admin.assignManager);
 router.post('/closeEvent', admin.closeEvent);
 router.post('/openEvent', admin.openEvent);
-
+router.post('/openFaceMethod', admin.openFaceMethod);
+router.post('/closeFaceMethod', admin.closeFaceMethod);
 module.exports = router
