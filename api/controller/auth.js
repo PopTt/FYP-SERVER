@@ -226,8 +226,8 @@ module.exports = {
        const encryptedModel = encryptModel(faceMatcher, secret);
       // const decryptedModel = await decryptModel(encryptedModel, secret);
 
-      // console.log(faceMatcher);
-      // console.log("encryptedModel::"+encryptedModel);
+      console.log(faceMatcher);
+      console.log("encryptedModel::"+encryptedModel);
       // console.log(decryptedModel);
 
       const updatedUser = await schema.Users.findByIdAndUpdate(

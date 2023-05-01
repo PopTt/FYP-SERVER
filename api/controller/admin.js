@@ -139,7 +139,7 @@ module.exports = {
                 body.event_id,
             {
                 $set: {
-                    status: true
+                    status: false
                 }
             })
             return res.status(201).json({
@@ -158,7 +158,7 @@ module.exports = {
                 body.event_id,
             {
                 $set: {
-                    status: false
+                    status: true
                 }
             })
             return res.status(201).json({
