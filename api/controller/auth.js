@@ -286,11 +286,11 @@ module.exports = {
           //console.log(result)
           // Match the face descriptor to a known user ID
           const match = result.findBestMatch(descriptor);
-
+          console.log("RESULT::" + match.distance);
           return res.status(200).json({
             success: 1,
             message: "Face recognition successful",
-            data: match.toString(),
+            data: match.distance,
           });
         }else{
           res.status(500).json({
